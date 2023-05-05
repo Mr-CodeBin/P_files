@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:engage_files/models/cartitemmodel.dart';
 import 'package:flutter/material.dart';
 
@@ -32,9 +34,17 @@ class CustomItemCard extends StatelessWidget {
             children: [
               Text(cartItemModel.brandName, style: const TextStyle(color: Colors.grey, fontFamily: 'RobotoMedium'),),
               const SizedBox(height: 5,),
-              Text(cartItemModel.name, style: const TextStyle(color: Colors.black, fontFamily: 'RobotoMedium', fontSize: 19),),
+              Text(
+                cartItemModel.name,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'RobotoMedium',
+                  fontSize: 19,
+                  overflow: TextOverflow.ellipsis
+                ),
+              ),
               const Expanded(child: SizedBox()),
-              const Text('Size', style: TextStyle(color: Color.fromARGB(255, 51, 51, 51), fontFamily: 'RobotoBold'),),
+              cartItemModel.sizes.isNotEmpty? const Text('Size', style: TextStyle(color: Color.fromARGB(255, 51, 51, 51), fontFamily: 'RobotoBold'),):const SizedBox(),
               const SizedBox(height: 5,),
               SizedBox(
                 height: 35,
@@ -42,16 +52,14 @@ class CustomItemCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CartItemSizeButton(size: cartItemModel.size1, isActive: false),
-                    const SizedBox(width: 8,),
-                    CartItemSizeButton(size: cartItemModel.size2, isActive: true),
-                    const Expanded(child: SizedBox()),
+                    ...cartItemModel.sizes.map((e) => CartItemSizeButton(size: e, isActive: Random().nextBool())),
+                    cartItemModel.sizes.isNotEmpty?const Expanded(child: SizedBox()):const SizedBox(),
                     Text('${cartItemModel.qty}x', style: const TextStyle(fontFamily: 'RobotoMedium', color: Colors.grey, fontSize: 12),),
                     Text(' \$${double.parse(cartItemModel.price.toStringAsFixed(2))}', style: const TextStyle(fontFamily: 'RobotoBold', color: Colors.black, fontSize: 20),),
                   ],
                 ),
               ),
-              
+              cartItemModel.sizes.isEmpty?const Expanded(child: SizedBox()):const SizedBox()
             ],
           )
         ],
