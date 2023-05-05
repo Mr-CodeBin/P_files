@@ -1,3 +1,5 @@
+import 'package:engage_files/Pages/details.dart';
+import 'package:engage_files/Pages/home.dart';
 import 'package:engage_files/login.dart';
 import 'package:engage_files/responsivescreen.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Loginscreen(),
+      home: Details(),
+      // Loginscreen(),
     );
   }
 }
