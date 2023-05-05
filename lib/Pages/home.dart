@@ -1,5 +1,6 @@
 import 'package:engage_files/responsivescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,6 +25,34 @@ class _HomeScreenState extends State<HomeScreen> {
     'https://cdn.pixabay.com/photo/2020/12/09/09/27/women-5816861_960_720.jpg',
   ];
 
+  List<String> textList = [
+    'Girl-4056684',
+    'Clock-5834193',
+    'Laptop-5582775',
+    'Woman-kayaking',
+    'Cellular-4602489',
+    'Christmas-2059698',
+    'Snowboard-480305',
+    'University-library',
+    'Cat-5767334',
+    'Snow-5828736',
+    'Women-5816861',
+  ];
+
+  List priceList = [
+    '120',
+    '140',
+    '150',
+    '978',
+    '1999',
+    '9999',
+    '999',
+    '2799',
+    '1899',
+    '899',
+    '719',
+  ];
+
   List category = [
     'Special Price',
     'Special Price',
@@ -42,11 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                "Discover Product",
-                style: GoogleFonts.montserrat(
-                    fontSize: ResponsiveScreen.halfRepWidth(context, 30),
-                    fontWeight: FontWeight.w600),
+              Row(
+                children: [
+                  Text(
+                    "Discover Product",
+                    style: GoogleFonts.montserrat(
+                        fontSize: ResponsiveScreen.halfRepWidth(context, 30),
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
               ),
               TextField(
                 controller: _searchcontroller,
@@ -69,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: ResponsiveScreen.fullRepHeight(context, 18),
               ),
               Container(
-                height: ResponsiveScreen.halfRepHeight(context, 50),
+                height: ResponsiveScreen.halfRepHeight(context, 40),
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
@@ -77,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 4.0),
+                          vertical: 2, horizontal: 4.0),
                       child: Container(
                         height: ResponsiveScreen.halfRepHeight(context, 30),
                         width: ResponsiveScreen.halfRepWidth(context, 100),
@@ -99,6 +132,87 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: ResponsiveScreen.fullRepHeight(context, 8),
+              ),
+              Expanded(
+                child: MasonryGridView.builder(
+                  itemCount: imageList.length,
+                  gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 6, 8, 0),
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                imageList[index],
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: ResponsiveScreen.fullRepHeight(context, 4),
+                          ),
+                          Center(
+                            child: Text(
+                              textList[index],
+                              style: GoogleFonts.montserrat(
+                                fontSize:
+                                    ResponsiveScreen.halfRepWidth(context, 12),
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Text(
+                                  "\$ " +
+                                      ((int.parse(priceList[index]) + 100)
+                                          .toString()) +
+                                      "/-",
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.blue[200],
+                                    fontSize: ResponsiveScreen.halfRepWidth(
+                                        context, 12),
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width:
+                                    ResponsiveScreen.halfRepWidth(context, 4),
+                              ),
+                              Center(
+                                child: Text(
+                                  "\$ " + priceList[index] + "/-",
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.blue[700],
+                                    fontSize: ResponsiveScreen.halfRepWidth(
+                                        context, 12),
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     );
                   },
