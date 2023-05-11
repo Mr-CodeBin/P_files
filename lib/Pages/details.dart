@@ -14,6 +14,13 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   late bool fav = true;
+
+  List<String> imgList = [
+    'https://images.pexels.com/photos/3335016/pexels-photo-3335016.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'https://images.pexels.com/photos/1990209/pexels-photo-1990209.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'https://images.pexels.com/photos/16668378/pexels-photo-16668378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    'https://images.pexels.com/photos/731151/pexels-photo-731151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+  ];
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -77,22 +84,31 @@ class _DetailsState extends State<Details> {
                 ),
               ),
               Container(
-                width: double.infinity,
+                width: MediaQuery.of(context).size.width, //double.infinity,
                 constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height * 0.5),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  image: DecorationImage(
-                    fit: BoxFit.contain,
-                    image: NetworkImage(
-                      'https://images.pexels.com/photos/16668378/pexels-photo-16668378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                child: PageView.builder(
+                  itemCount: 4,
+                  itemBuilder: ((context, index) {
+                  return Padding(
+                    padding: EdgeInsets.all(2),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        image: DecorationImage(
+                          fit: BoxFit.contain,
+                          image: NetworkImage(
+                            imgList[index],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                })),
               ),
               Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 1,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
