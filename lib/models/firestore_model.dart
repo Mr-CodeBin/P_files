@@ -18,6 +18,10 @@ class FirestoreUserData {
       'email': user.email,
       'profilePicture': user.profilePicture,
       'lastUpdated': DateTime.now().toIso8601String(),
+    }).whenComplete(() {
+      log("User Data Set");
+    }).catchError((error, stackTrace) {
+      log("Error: $error");
     });
   }
 
@@ -59,30 +63,26 @@ class FirestoreUserData {
 
   static getProfileData(String uid) async {
     var db = FirebaseFirestore.instance;
-    var UserData = await db.collection(uid).doc("profile").get();
-    log(UserData.data().toString());
-    return UserData.data();
+    var UserData = (await db.collection(uid).doc("profile").get()).data() ?? {};
+    return UserData;
   }
 
   static getOrders(String uid) async {
     var db = FirebaseFirestore.instance;
     var UserData = await db.collection(uid).doc("orders").get();
-    log(UserData.data().toString());
-    return UserData.data()!['data'] ?? [];
+    return UserData.data()?['data'] ?? [];
   }
 
   static getFavorites(String uid) async {
     var db = FirebaseFirestore.instance;
     var UserData = await db.collection(uid).doc("favorites").get();
-    log(UserData.data().toString());
-    return UserData.data()!['data'] ?? [];
+    return UserData.data()?['data'] ?? [];
   }
 
   static getMyCart(String uid) async {
     var db = FirebaseFirestore.instance;
     var UserData = await db.collection(uid).doc("cart").get();
-    log(UserData.data().toString());
-    return UserData.data()!['data'] ?? [];
+    return UserData.data()?['data'] ?? [];
   }
 
   static setLastupdated(String uid) async {

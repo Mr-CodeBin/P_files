@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:engage_files/models/firestore_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CurrentUser {
   String firstName;
@@ -53,7 +54,7 @@ class CurrentUser {
     List<dynamic> cart = await FirestoreUserData.getMyCart(uid);
     List<dynamic> orders = await FirestoreUserData.getOrders(uid);
     data['lastUpdated'] = DateTime.parse(data['lastUpdated']);
-    data['phoneNumber'] = int.parse(data['phoneNumber'] ?? "0");
+    data['phoneNumber'] = data['phoneNumber'];
     data['fav'] = fav;
     data['cart'] = cart;
     data['orders'] = orders;
@@ -80,15 +81,18 @@ class CurrentUser {
       var userCred = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       log(userCred.toString());
+      CurrentUser.currentUserUid = userCred.user!.uid;
       await FirestoreUserData.getProfileData(userCred.user!.uid);
+      CurrentUser.getCurrentUser();
+      return "all is well";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        log('No user found for that email.');
+        return 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        log('Wrong password provided for that user.');
+        return 'Wrong password provided for that user.';
       }
     } catch (_) {
-      log("exception error");
+      return "exception error";
     }
   }
 
@@ -98,6 +102,7 @@ class CurrentUser {
           .createUserWithEmailAndPassword(email: user.email, password: pass);
       userCred.user!.updateDisplayName(user.firstName + " " + user.lastName);
       log(userCred.toString());
+      await FirestoreUserData.setData(user, userCred.user!.uid);
       return "all is well";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -110,4 +115,11 @@ class CurrentUser {
     }
     return null;
   }
+}
+
+myUrlLauncher(String link) async {
+  String url = link;
+  final Uri _url = Uri.parse(url);
+
+  await launchUrl(_url, mode: LaunchMode.externalApplication);
 }

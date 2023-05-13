@@ -10,10 +10,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Details extends StatefulWidget {
-  int index;
-  Details({super.key, required this.index});
+  Map<String, dynamic> product;
+  Details({super.key, required this.product});
 
   @override
   State<Details> createState() => _DetailsState();
@@ -22,12 +23,6 @@ class Details extends StatefulWidget {
 class _DetailsState extends State<Details> {
   late bool fav = true;
 
-  List<String> imgList = [
-    'https://images.pexels.com/photos/3335016/pexels-photo-3335016.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/1990209/pexels-photo-1990209.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/16668378/pexels-photo-16668378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/731151/pexels-photo-731151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-  ];
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -95,7 +90,7 @@ class _DetailsState extends State<Details> {
                 constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height * 0.5),
                 child: PageView.builder(
-                    itemCount: 4,
+                    itemCount: 1,
                     itemBuilder: ((context, index) {
                       return Padding(
                         padding: EdgeInsets.all(2),
@@ -105,7 +100,7 @@ class _DetailsState extends State<Details> {
                             image: DecorationImage(
                               fit: BoxFit.contain,
                               image: NetworkImage(
-                                imgList[index],
+                                widget.product['thumbnail'],
                               ),
                             ),
                           ),
@@ -114,75 +109,116 @@ class _DetailsState extends State<Details> {
                     })),
               ),
               Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 1,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 1,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 5, top: 5),
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              productData[widget.index]['name'].length >
-                                      ResponsiveScreen.fullRepWidth(context, 22)
-                                          .round()
-                                  ? productData[widget.index]['name'].substring(
-                                          0,
-                                          ResponsiveScreen.fullRepWidth(
-                                                  context, 22)
-                                              .round()) +
-                                      '...'
-                                  : productData[widget.index]['name'],
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                              ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 5, top: 5),
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            widget.product['name'].length >
+                                    ResponsiveScreen.fullRepWidth(context, 22)
+                                        .round()
+                                ? widget.product['name'].substring(
+                                        0,
+                                        ResponsiveScreen.fullRepWidth(
+                                                context, 22)
+                                            .round()) +
+                                    '...'
+                                : widget.product['name'],
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
                             ),
                           ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 10, bottom: 10),
+                      child: Row(
+                        children: [
+                          Text(
+                            widget.product['price']
+                                .toString()
+                                .replaceAll('C', " ")
+                                .replaceAll('to ', "-")
+                                .trim(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          )
                         ],
                       ),
-                      Container(
-                        margin:
-                            EdgeInsets.only(left: 15, right: 10, bottom: 10),
-                        child: Row(
-                          children: [
-                            Text(
-                              productData[widget.index]['price']
-                                  .toString()
-                                  .replaceAll('C', " ")
-                                  .replaceAll('to ', "-")
-                                  .trim(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            )
-                          ],
-                        ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 20),
+                      child: Text(
+                        widget.product['description'],
+                        style: GoogleFonts.poppins(fontSize: 15),
                       ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 15, right: 20),
-                            child: Text(
-                              productData[widget.index]['description'],
-                              style: GoogleFonts.poppins(fontSize: 15),
-                            ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 20),
+                      child: Text(
+                        widget.product['product_location'],
+                        style: GoogleFonts.poppins(fontSize: 15),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 20),
+                      child: Text(
+                        widget.product['logistics_cost'],
+                        style: GoogleFonts.poppins(fontSize: 15),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 20),
+                      child: Text(
+                        widget.product['condition'],
+                        style: GoogleFonts.poppins(fontSize: 15),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 15, right: 20),
+                      child: Text(
+                        widget.product['uninformed'] ?? "",
+                        style: GoogleFonts.poppins(fontSize: 15),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        //launch url
+                        myUrlLauncher("www.google.com");
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 15, right: 20),
+                        child: Text(
+                          "Click here for reviews",
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    ],
-                  )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -197,8 +233,7 @@ class _DetailsState extends State<Details> {
             children: [
               InkWell(
                 onTap: () async {
-                  if (CurrentUser.currentUser?.cart
-                          .contains(productData[widget.index]) ==
+                  if (CurrentUser.currentUser?.cart.contains(widget.product) ==
                       true) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -209,9 +244,9 @@ class _DetailsState extends State<Details> {
                     return;
                   }
                   CurrentUser.currentUser?.cart == null
-                      ? [productData[widget.index]]
+                      ? [widget.product]
                       : CurrentUser.currentUser!.cart.add(
-                          productData[widget.index],
+                          widget.product,
                         );
                   await FirestoreUserData.setMyCart(
                       CurrentUser.currentUserUid!);
@@ -240,7 +275,7 @@ class _DetailsState extends State<Details> {
               InkWell(
                 onTap: () async {
                   if (CurrentUser.currentUser?.orders
-                          .contains(productData[widget.index]) ==
+                          .contains(widget.product) ==
                       true) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -251,9 +286,9 @@ class _DetailsState extends State<Details> {
                     return;
                   }
                   CurrentUser.currentUser?.orders == null
-                      ? [productData[widget.index]]
+                      ? [widget.product]
                       : CurrentUser.currentUser!.orders.add(
-                          productData[widget.index],
+                          widget.product,
                         );
                 },
                 child: Container(

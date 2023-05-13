@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => Details(
-                                    index: index,
+                                    product: productData[index],
                                   )));
                         },
                         child: Column(

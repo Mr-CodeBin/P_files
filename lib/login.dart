@@ -1,4 +1,5 @@
 import 'package:engage_files/Pages/Home/home.dart';
+import 'package:engage_files/Pages/Home/routPage.dart';
 import 'package:engage_files/forgotpass.dart';
 import 'package:engage_files/models/user_model.dart';
 import 'package:engage_files/signup.dart';
@@ -164,13 +165,47 @@ class _LoginscreenState extends State<Loginscreen> {
                   alignment: Alignment.center,
                   child: TextButton(
                     onPressed: () async {
-                      await CurrentUser.loginUser(
+                      if (emailContorller.text.trim().isEmpty ||
+                          passwordController.text.trim().isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Please fill all the fields"),
+                          ),
+                        );
+                        return;
+                      }
+
+                      var resp = await CurrentUser.loginUser(
                         emailContorller.text.trim(),
                         passwordController.text.trim(),
                       );
 
+                      if (resp == "No user found for that email.") {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(resp.toString()),
+                          ),
+                        );
+                        return;
+                      }
+                      if (resp == "Wrong password provided for that user.") {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(resp),
+                          ),
+                        );
+                        return;
+                      }
+                      if (resp == "exception error") {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(resp),
+                          ),
+                        );
+                        return;
+                      }
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomeScreen()));
+                          builder: (context) => DashboardScreen()));
                     },
                     child: Text(
                       "Login",

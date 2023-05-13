@@ -1,5 +1,6 @@
 import 'package:engage_files/Pages/Home/home.dart';
 import 'package:engage_files/Pages/Home/mycart.dart';
+import 'package:engage_files/Pages/Profile.dart';
 import 'package:engage_files/components/navigationBar.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class DashboardScreenState extends State<DashboardScreen> {
         children: [
           HomeScreen(),
           MyCart(),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: NavigationBarCustom(),
