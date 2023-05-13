@@ -66,6 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
+                        //sized box
                         SizedBox(
                           height: ResponsiveScreen.halfRepHeight(context, 18),
                         ),
