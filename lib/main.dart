@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CurrentUser.currentUser == null ? Loginscreen() : MyCart(),
+      home: CurrentUser.currentUser == null ? Loginscreen() : HomeScreen(),
     );
   }
 }

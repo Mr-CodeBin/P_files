@@ -1,4 +1,5 @@
 import 'package:engage_files/Pages/details.dart';
+import 'package:engage_files/components/navigationBar.dart';
 import 'package:engage_files/models/products.dart';
 import 'package:engage_files/responsivescreen.dart';
 import 'package:flutter/material.dart';
@@ -158,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: NavigationBarCustom(),
     );
   }
 }

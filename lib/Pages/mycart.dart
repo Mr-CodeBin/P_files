@@ -1,63 +1,53 @@
-import 'package:engage_files/models/cartitemmodel.dart';
-import 'package:engage_files/widgets/custom_card.dart';
-import 'package:engage_files/widgets/topappbar.dart';
+import 'package:engage_files/models/user_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 
-class MyCart extends StatelessWidget {
+class MyCart extends StatefulWidget {
   const MyCart({super.key});
 
-  final List<CartItemModel> cartItems = const [
-    CartItemModel(
-      brandName: 'Nike',
-      name: 'Air Jordan XXXVI',
-      qty: 1,
-      price: 108,
-      sizes: [9, 10],
-      imgURL:
-          'https://sneakernews.com/wp-content/uploads/2021/08/Air-Jordan-36-2021-54.jpg?w=1140',
-    ),
-  ];
+  @override
+  State<MyCart> createState() => _MyCartState();
+}
+
+class _MyCartState extends State<MyCart> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    EdgeInsets devicePadding = MediaQuery.of(context).padding;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: ListView(
-                padding: const EdgeInsets.all(0),
-                scrollDirection: Axis.vertical,
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  SizedBox(
-                    height: devicePadding.top + 55 + 20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    size: 20,
                   ),
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'My Cart',
-                      style: TextStyle(fontFamily: 'RobotoBold', fontSize: 19),
-                    ),
+                ),
+                Text(
+                  "My Cart",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  ...cartItems.map((e) => CustomItemCard(cartItemModel: e)),
-                  SizedBox(
-                    height: devicePadding.bottom > 0 ? devicePadding.bottom : 8,
-                  )
-                ],
-              ),
+                ),
+                SizedBox(
+                  width: 60,
+                ),
+              ],
             ),
-            CustomTopAppBar(
-              totalItems: cartItems.length,
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "You have ${CurrentUser.currentUser!.cart.length} items in your cart",
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
             )
           ],
         ),

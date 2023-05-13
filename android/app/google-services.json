@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "156934326166",
+    "project_id": "bugoff-76873",
+    "storage_bucket": "bugoff-76873.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156934326166:android:06d11460f7a67c86243fb7",
+        "android_client_info": {
+          "package_name": "com.example.engage_files"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156934326166-qp9fpovqr2gls3f07qmpp9neccjbb6om.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAusi9siJ5nluqQzcXSpfysA0NlM-2qcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156934326166-qp9fpovqr2gls3f07qmpp9neccjbb6om.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
