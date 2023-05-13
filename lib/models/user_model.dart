@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:engage_files/models/firestore_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -60,6 +61,22 @@ class CurrentUser {
     data['orders'] = orders;
     log(data.toString());
     currentUser = CurrentUser.fromJSON(data);
+  }
+
+  static updateProfile(CurrentUser user) async {
+    var db = FirebaseFirestore.instance;
+    var UserData = await db.collection(currentUserUid!).doc("profile").update({
+      'firstName': user.firstName,
+      'lastName': user.lastName,
+      'phoneNumber': user.phoneNumber,
+      'email': user.email,
+      'profilePicture': user.profilePicture,
+      'lastUpdated': DateTime.now().toIso8601String(),
+    }).whenComplete(() {
+      log("User Data Set");
+    }).catchError((error, stackTrace) {
+      log("Error: $error");
+    });
   }
 
   static Map<String, dynamic> toJSON(CurrentUser user) {

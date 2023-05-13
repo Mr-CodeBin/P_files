@@ -199,19 +199,23 @@ class _DetailsState extends State<Details> {
                         style: GoogleFonts.poppins(fontSize: 15),
                       ),
                     ),
-                    InkWell(
-                      onTap: () async {
-                        //launch url
-                        myUrlLauncher("www.google.com");
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 15, right: 20),
-                        child: Text(
-                          "Click here for reviews",
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
+                    Visibility(
+                      visible: widget.product['reviews'] != null,
+                      child: InkWell(
+                        onTap: () async {
+                          //launch url
+                          myUrlLauncher(widget.product['reviews'] ??
+                              "https://www.google.com");
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 15, right: 20),
+                          child: Text(
+                            "Click here for reviews",
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
