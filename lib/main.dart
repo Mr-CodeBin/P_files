@@ -1,8 +1,20 @@
+import 'package:engage_files/Pages/details.dart';
+import 'package:engage_files/Pages/home.dart';
+import 'package:engage_files/Pages/homePage.dart';
+import 'package:engage_files/Pages/mycart.dart';
 import 'package:engage_files/login.dart';
+import 'package:engage_files/models/user_model.dart';
 import 'package:engage_files/responsivescreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await CurrentUser.getCurrentUser();
   ResponsiveScreen.ScreenHeight = 844;
   ResponsiveScreen.ScreenWidth = 390;
 
@@ -16,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Loginscreen(),
+      home: CurrentUser.currentUser == null ? Loginscreen() : MyCart(),
     );
   }
 }

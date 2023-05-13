@@ -1,4 +1,9 @@
+import 'dart:developer';
+
 import 'package:engage_files/Pages/home.dart';
+import 'package:engage_files/models/products.dart';
+import 'package:engage_files/models/user_model.dart';
+import 'package:engage_files/responsivescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -6,7 +11,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Details extends StatefulWidget {
-  const Details({super.key});
+  int index;
+  Details({super.key, required this.index});
 
   @override
   State<Details> createState() => _DetailsState();
@@ -88,23 +94,23 @@ class _DetailsState extends State<Details> {
                 constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height * 0.5),
                 child: PageView.builder(
-                  itemCount: 4,
-                  itemBuilder: ((context, index) {
-                  return Padding(
-                    padding: EdgeInsets.all(2),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: NetworkImage(
-                            imgList[index],
+                    itemCount: 4,
+                    itemBuilder: ((context, index) {
+                      return Padding(
+                        padding: EdgeInsets.all(2),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: NetworkImage(
+                                imgList[index],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                })),
+                      );
+                    })),
               ),
               Container(
                   width: double.infinity,
@@ -125,7 +131,16 @@ class _DetailsState extends State<Details> {
                             margin: EdgeInsets.only(left: 5, top: 5),
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              'Mango Wood Table',
+                              productData[widget.index]['name'].length >
+                                      ResponsiveScreen.fullRepWidth(context, 22)
+                                          .round()
+                                  ? productData[widget.index]['name'].substring(
+                                          0,
+                                          ResponsiveScreen.fullRepWidth(
+                                                  context, 22)
+                                              .round()) +
+                                      '...'
+                                  : productData[widget.index]['name'],
                               style: GoogleFonts.poppins(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -133,7 +148,6 @@ class _DetailsState extends State<Details> {
                               ),
                             ),
                           ),
-                          Text('Discount Tag')
                         ],
                       ),
                       Container(
@@ -141,21 +155,12 @@ class _DetailsState extends State<Details> {
                             EdgeInsets.only(left: 15, right: 10, bottom: 10),
                         child: Row(
                           children: [
-                            Container(
-                              child: Text(
-                                '\$180,00',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    decoration: TextDecoration.lineThrough),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.05,
-                            ),
                             Text(
-                              '\$152,00',
+                              productData[widget.index]['price']
+                                  .toString()
+                                  .replaceAll('C', " ")
+                                  .replaceAll('to ', "-")
+                                  .trim(),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -169,7 +174,7 @@ class _DetailsState extends State<Details> {
                           child: Container(
                             margin: EdgeInsets.only(left: 15, right: 20),
                             child: Text(
-                              'The opium table is a timeless design that is popular throughout Southeast Asia. The curved legs provide a solid base for multi-purpose use. The varnish helps preserve the natural beauty of the mango wood and highlights the grains, which is why each piece has a different pattern. The opium table’s everyday elegance makes it a perfect fit for any decor. The brown colour radiates natural calm and balance. Despite its solid and heavy wood material, it brings a light and elegant atmosphere, and is warmly recommended for any interior style, such as minimalist, modern or art deco. Origin India, Rajasthan. Solid wood furniture. Find other pieces from our Marco Polo collection.',
+                              productData[widget.index]['description'],
                               style: GoogleFonts.poppins(fontSize: 15),
                             ),
                           ),
@@ -189,31 +194,71 @@ class _DetailsState extends State<Details> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                margin: EdgeInsets.symmetric(horizontal: 5),
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                    border: Border.all(color: Colors.black)),
-                child: Text(
-                  'Add to Cart',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(color: Colors.black),
+              InkWell(
+                onTap: () async {
+                  if (CurrentUser.currentUser?.cart
+                          .contains(productData[widget.index]) ==
+                      true) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Already in cart'),
+                        duration: Duration(seconds: 1),
+                      ),
+                    );
+                    return;
+                  }
+                  CurrentUser.currentUser?.cart == null
+                      ? [productData[widget.index]]
+                      : CurrentUser.currentUser!.cart.add(
+                          productData[widget.index],
+                        );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      border: Border.all(color: Colors.black)),
+                  child: Text(
+                    'Add to Cart',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(color: Colors.black),
+                  ),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                margin: EdgeInsets.symmetric(horizontal: 5),
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                    border: Border.all(color: Colors.black)),
-                child: Text(
-                  'Buy Now',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(color: Colors.white),
+              InkWell(
+                onTap: () async {
+                  if (CurrentUser.currentUser?.orders
+                          .contains(productData[widget.index]) ==
+                      true) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Already ordered'),
+                        duration: Duration(seconds: 1),
+                      ),
+                    );
+                    return;
+                  }
+                  CurrentUser.currentUser?.orders == null
+                      ? [productData[widget.index]]
+                      : CurrentUser.currentUser!.orders.add(
+                          productData[widget.index],
+                        );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      border: Border.all(color: Colors.black)),
+                  child: Text(
+                    'Buy Now',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(color: Colors.white),
+                  ),
                 ),
               ),
             ],
