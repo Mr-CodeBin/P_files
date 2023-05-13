@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:engage_files/Pages/Home/routPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -23,6 +24,11 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
           onTap: () {
             setState(() {
               NavigationBarCustom.currentIndex = 0;
+              DashboardScreen.dashboardController.animateToPage(
+                0,
+                duration: Duration(milliseconds: 400),
+                curve: Curves.fastLinearToSlowEaseIn,
+              );
             });
           },
           child: NavBarIcon(
@@ -34,25 +40,35 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
         InkWell(
           onTap: () {
             setState(() {
-              NavigationBarCustom.currentIndex = 2;
+              NavigationBarCustom.currentIndex = 1;
+              DashboardScreen.dashboardController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 400),
+                curve: Curves.fastLinearToSlowEaseIn,
+              );
             });
           },
           child: NavBarIcon(
             icon: Icons.shopping_cart,
             text: "Cart",
-            index: 2,
+            index: 1,
           ),
         ),
         InkWell(
           onTap: () {
             setState(() {
-              NavigationBarCustom.currentIndex = 3;
+              NavigationBarCustom.currentIndex = 2;
+              DashboardScreen.dashboardController.animateToPage(
+                2,
+                duration: Duration(milliseconds: 400),
+                curve: Curves.fastLinearToSlowEaseIn,
+              );
             });
           },
           child: NavBarIcon(
             icon: Icons.person,
             text: "Profile",
-            index: 3,
+            index: 2,
           ),
         ),
       ],

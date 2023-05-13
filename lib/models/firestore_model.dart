@@ -37,12 +37,24 @@ class FirestoreUserData {
     });
   }
 
-  static setMyCart(CurrentUser user, String uid) async {
+  static setMyCart(String uid) async {
     var db = FirebaseFirestore.instance;
-
-    var UserData = await db.collection(uid).doc("cart").set({
-      'data': user.cart,
-    });
+    var UserData = await db.collection(uid).doc("cart").set(
+      {
+        'data': CurrentUser.currentUser!.cart,
+      },
+    ).timeout(
+      Duration(seconds: 10),
+      onTimeout: () {
+        CurrentUser.currentUser!.cart.removeLast();
+      },
+    ).onError(
+      (error, stackTrace) => (error, stackTrace) {
+        log("Error: $error");
+        log("Stack Trace: $stackTrace");
+        CurrentUser.currentUser!.cart.removeLast();
+      },
+    );
   }
 
   static getProfileData(String uid) async {
@@ -71,5 +83,12 @@ class FirestoreUserData {
     var UserData = await db.collection(uid).doc("cart").get();
     log(UserData.data().toString());
     return UserData.data()!['data'] ?? [];
+  }
+
+  static setLastupdated(String uid) async {
+    var db = FirebaseFirestore.instance;
+    var UserData = await db.collection(uid).doc("profile").update({
+      'lastUpdated': DateTime.now().toIso8601String(),
+    });
   }
 }

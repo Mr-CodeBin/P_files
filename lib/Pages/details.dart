@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:engage_files/Pages/home.dart';
+import 'package:engage_files/Pages/Home/home.dart';
+import 'package:engage_files/models/firestore_model.dart';
 import 'package:engage_files/models/products.dart';
 import 'package:engage_files/models/user_model.dart';
 import 'package:engage_files/responsivescreen.dart';
@@ -212,6 +213,15 @@ class _DetailsState extends State<Details> {
                       : CurrentUser.currentUser!.cart.add(
                           productData[widget.index],
                         );
+                  await FirestoreUserData.setMyCart(
+                      CurrentUser.currentUserUid!);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.blue[100],
+                      content: Text('Added to cart'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.45,

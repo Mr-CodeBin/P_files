@@ -15,7 +15,7 @@ class CurrentUser {
   List<dynamic> orders;
 
   static CurrentUser? currentUser;
-
+  static String? currentUserUid;
   CurrentUser({
     required this.firstName,
     required this.lastName,
@@ -47,6 +47,7 @@ class CurrentUser {
       return null;
     }
     String uid = await FirebaseAuth.instance.currentUser!.uid;
+    currentUserUid = uid;
     Map<String, dynamic> data = await FirestoreUserData.getProfileData(uid);
     List<dynamic> fav = await FirestoreUserData.getFavorites(uid);
     List<dynamic> cart = await FirestoreUserData.getMyCart(uid);
