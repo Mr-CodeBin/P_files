@@ -15,6 +15,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _searchcontroller = TextEditingController();
+
+  List<Widget> pages = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,7 +162,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBarCustom(),
     );
   }
 }

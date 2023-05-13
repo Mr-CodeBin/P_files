@@ -1,7 +1,8 @@
+import 'package:engage_files/Pages/Home/routPage.dart';
 import 'package:engage_files/Pages/details.dart';
-import 'package:engage_files/Pages/home.dart';
+import 'package:engage_files/Pages/Home/home.dart';
 import 'package:engage_files/Pages/homePage.dart';
-import 'package:engage_files/Pages/mycart.dart';
+import 'package:engage_files/Pages/Home/mycart.dart';
 import 'package:engage_files/login.dart';
 import 'package:engage_files/models/user_model.dart';
 import 'package:engage_files/responsivescreen.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CurrentUser.currentUser == null ? Loginscreen() : HomeScreen(),
+      home: CurrentUser.currentUser == null ? Loginscreen() : DashboardScreen(),
     );
   }
 }
