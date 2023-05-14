@@ -40,7 +40,7 @@ class _MyCartState extends State<MyCart> {
               ),
               Center(
                 child: Text(
-                  "You have ${CurrentUser.currentUser!.cart.length} items in your cart",
+                  "You have ${CurrentUser.currentUser?.cart.length ?? [].length} items in your cart",
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -49,6 +49,18 @@ class _MyCartState extends State<MyCart> {
               ),
               SizedBox(
                 height: 24,
+              ),
+              Center(
+                child: Visibility(
+                  child: Text(
+                    "No items in your cart",
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  visible: CurrentUser.currentUser?.cart.length == 0,
+                ),
               ),
               Expanded(
                 child: ListView.builder(

@@ -155,58 +155,58 @@ class _LoginscreenState extends State<Loginscreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Container(
-                  height: 44,
-                  width: ResponsiveScreen.fullRepWidth(context, 358),
-                  decoration: BoxDecoration(
-                    color: Colors.blue[700],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    onPressed: () async {
-                      if (emailContorller.text.trim().isEmpty ||
-                          passwordController.text.trim().isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Please fill all the fields"),
-                          ),
-                        );
-                        return;
-                      }
-
-                      var resp = await CurrentUser.loginUser(
-                        emailContorller.text.trim(),
-                        passwordController.text.trim(),
+                child: GestureDetector(
+                  onTap: () async {
+                    if (emailContorller.text.trim().isEmpty ||
+                        passwordController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Please fill all the fields"),
+                        ),
                       );
+                      return;
+                    }
 
-                      if (resp == "No user found for that email.") {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(resp.toString()),
-                          ),
-                        );
-                        return;
-                      }
-                      if (resp == "Wrong password provided for that user.") {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(resp),
-                          ),
-                        );
-                        return;
-                      }
-                      if (resp == "exception error") {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(resp),
-                          ),
-                        );
-                        return;
-                      }
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DashboardScreen()));
-                    },
+                    var resp = await CurrentUser.loginUser(
+                      emailContorller.text.trim(),
+                      passwordController.text.trim(),
+                    );
+
+                    if (resp == "No user found for that email.") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(resp.toString()),
+                        ),
+                      );
+                      return;
+                    }
+                    if (resp == "Wrong password provided for that user.") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(resp),
+                        ),
+                      );
+                      return;
+                    }
+                    if (resp == "exception error") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(resp),
+                        ),
+                      );
+                      return;
+                    }
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => DashboardScreen()));
+                  },
+                  child: Container(
+                    height: 44,
+                    width: ResponsiveScreen.fullRepWidth(context, 358),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[700],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    alignment: Alignment.center,
                     child: Text(
                       "Login",
                       style: GoogleFonts.montserrat(

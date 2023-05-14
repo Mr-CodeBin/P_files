@@ -283,6 +283,11 @@ class _DetailsState extends State<Details> {
                       true) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        action: SnackBarAction(
+                          textColor: Colors.white,
+                          label: "Dismiss",
+                          onPressed: () {},
+                        ),
                         content: Text('Already ordered'),
                         duration: Duration(seconds: 1),
                       ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:engage_files/Pages/Home/routPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -58,6 +59,8 @@ class _NavigationBarCustomState extends State<NavigationBarCustom> {
           onTap: () {
             setState(() {
               NavigationBarCustom.currentIndex = 2;
+              FirebaseAuth.instance.signOut();
+
               DashboardScreen.dashboardController.animateToPage(
                 2,
                 duration: Duration(milliseconds: 400),

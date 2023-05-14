@@ -127,9 +127,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                       ),
                                       Text(
-                                        "05",
+                                        "5",
                                         style: GoogleFonts.montserrat(
-                                          color: Colors.white,
+                                          color: Colors.deepPurpleAccent,
                                           fontSize:
                                               ResponsiveScreen.halfRepWidth(
                                                   context, 18),
@@ -156,7 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         CurrentUser.currentUser!.cart.length
                                             .toString(),
                                         style: GoogleFonts.montserrat(
-                                          color: Colors.white,
+                                          color: Colors.deepPurpleAccent,
                                           fontSize:
                                               ResponsiveScreen.halfRepWidth(
                                                   context, 18),
