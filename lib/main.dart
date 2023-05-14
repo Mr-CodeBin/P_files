@@ -14,7 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await CurrentUser.getCurrentUser();
+  CurrentUser.getCurrentUser();
   ResponsiveScreen.ScreenHeight = 844;
   ResponsiveScreen.ScreenWidth = 390;
 
@@ -28,7 +28,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CurrentUser.currentUser == null ? Loginscreen() : DashboardScreen(),
+      home: CurrentUser.currentUser == false
+          ? const DashboardScreen()
+          : const Loginscreen(),
     );
   }
 }

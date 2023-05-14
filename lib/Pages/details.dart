@@ -204,8 +204,7 @@ class _DetailsState extends State<Details> {
                       child: InkWell(
                         onTap: () async {
                           //launch url
-                          myUrlLauncher(widget.product['reviews'] ??
-                              "https://www.google.com");
+                          await myUrlLauncher(urlPtoduct);
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 15, right: 20),
@@ -237,16 +236,6 @@ class _DetailsState extends State<Details> {
             children: [
               InkWell(
                 onTap: () async {
-                  if (CurrentUser.currentUser?.cart.contains(widget.product) ==
-                      true) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Already in cart'),
-                        duration: Duration(seconds: 1),
-                      ),
-                    );
-                    return;
-                  }
                   CurrentUser.currentUser?.cart == null
                       ? [widget.product]
                       : CurrentUser.currentUser!.cart.add(

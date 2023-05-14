@@ -33,7 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           child: Form(
             key: _formKey,
             child: Column(

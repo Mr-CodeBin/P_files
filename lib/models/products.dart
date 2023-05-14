@@ -12054,3 +12054,5 @@ List<Map<String, dynamic>> productData = [
         "https://i.ebayimg.com/thumbs/images/g/9dkAAOSwurVifGjF/s-l225.jpg"
   }
 ];
+
+const String urlPtoduct = "www.google.com";
