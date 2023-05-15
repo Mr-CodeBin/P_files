@@ -15,12 +15,12 @@ class ResponsiveScreen {
   }
 
   static double fullRepWidth(BuildContext context, double _width) {
-    return MediaQuery.of(context).size.width * (_width / ScreenWidth!);
+    return MediaQuery.of(context).size.height * (_width / ScreenWidth!);
   }
 
   static double halfRepWidth(BuildContext context, double _width) {
     return MediaQuery.of(context).size.width > ScreenWidth!
         ? _width
-        : MediaQuery.of(context).size.width * (_width / ScreenWidth!);
+        : MediaQuery.of(context).size.height * (_width / ScreenWidth!);
   }
 }

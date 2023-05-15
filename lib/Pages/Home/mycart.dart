@@ -56,6 +56,7 @@ class _MyCartState extends State<MyCart> {
                     "No items in your cart",
                     style: TextStyle(
                       fontSize: 36,
+                      letterSpacing: -4,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
